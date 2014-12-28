@@ -33,4 +33,4 @@ if (! defined ( 'ABSPATH' )) {
 
 define ( 'YOIMG_SEO_PLUGIN_PATH', dirname ( __FILE__ ) );
 require_once (YOIMG_SEO_PLUGIN_PATH . '/vendor/sirulli/yoimages-commons/inc/init.php');
-require_once (YOIMG_SEO_PLUGIN_PATH . '/inc/init.php');
+yoimg_register_module( 'yoimages-seo', YOIMG_SEO_PLUGIN_PATH, true );
