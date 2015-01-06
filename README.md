@@ -4,7 +4,7 @@ YoImages SEO is a Wordpress plugin that provides image SEO functions.
 
 YoImages SEO is part of a suite of modules which aim is to add better image handling capabilities to the Wordpress core, read more about [YoImages SEO](https://github.com/sirulli/yoimages#image-seo-hooks "").
 
-You can get YoImages SEO along with other YoImages modules [here](https://github.com/sirulli/yoimages "") or you can install it as a stand alone Wordpress plugin following the step described in the next paragraph.
+You can get YoImages SEO along with other YoImages modules [here](https://github.com/sirulli/yoimages "") or you can install it as a stand alone Wordpress plugin following the steps described in the next paragraph.
 
 ##Install YoImages SEO from sources
 
