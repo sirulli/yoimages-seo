@@ -14,57 +14,98 @@ function yoimg_imgseo_explode_expression( $expression, $attachment, $parent ) {
 	}
 }
 
+function yoimg_get_all_translations( $input ) {
+	global $yoimg_mos;
+	if ( ! $yoimg_mos ) {
+		$yoimg_mos = array();
+	}
+	$result = array();
+	$supported_locales = explode( ' ', YOIMG_SUPPORTED_LOCALES );
+	foreach ( $supported_locales as $supported_locale ) {
+		if ( $supported_locale === get_locale() ) {
+			$translation = __( $input, YOIMG_DOMAIN );
+		} else {
+			$mo = isset( $yoimg_mos[$supported_locale] ) ? $yoimg_mos[$supported_locale] : null;
+			if ( ! $mo ) {
+				$mo_file = WP_PLUGIN_DIR . '/' . trim( YOIMG_LANG_REL_PATH, '/' ) . '/' . YOIMG_DOMAIN . '-' . $supported_locale . '.mo';
+				yoimg_log( 'loading mo: ' . $mo_file );
+				$mo = new MO();
+				$mo->import_from_file( $mo_file );
+				$yoimg_mos[$supported_locale] = $mo;
+			}
+			$translation = $mo->translate( $input );
+		}
+		array_push( $result, $translation );
+	}
+	return $result;
+}
+
 function yoimg_seo_expression_title( $result, $attachment, $parent ) {
-	if ( strpos( $result, YOIMG_TITLE_EXPRESSION ) !== FALSE ) {
-		$result = str_replace( YOIMG_TITLE_EXPRESSION, $parent->post_title, $result );
+	$expressions = yoimg_get_all_translations( YOIMG_TITLE_EXPRESSION_EN_US );
+	foreach ( $expressions as $expression ) {
+		if ( strpos( $result, $expression ) !== FALSE ) {
+			$result = str_replace( $expression, $parent->post_title, $result );
+		}
 	}
 	return $result;
 }
 add_filter('yoimg_seo_expressions', 'yoimg_seo_expression_title', 10, 3);
 
 function yoimg_seo_expression_post_type( $result, $attachment, $parent ) {
-if ( strpos( $result, YOIMG_POST_TYPE_EXPRESSION ) !== FALSE ) {
-		$result = str_replace( YOIMG_POST_TYPE_EXPRESSION, $parent->post_type, $result );
+	$expressions = yoimg_get_all_translations( YOIMG_POST_TYPE_EXPRESSION_EN_US );
+	foreach ( $expressions as $expression ) {
+		if ( strpos( $result, $expression ) !== FALSE ) {
+			$result = str_replace( $expression, $parent->post_type, $result );
+		}
 	}
 	return $result;
 }
 add_filter('yoimg_seo_expressions', 'yoimg_seo_expression_post_type', 10, 3);
 
 function yoimg_seo_expression_site_name( $result, $attachment, $parent ) {
-	if ( strpos( $result, YOIMG_SITE_NAME_EXPRESSION ) !== FALSE ) {
-		$result = str_replace( YOIMG_SITE_NAME_EXPRESSION, get_bloginfo( 'name' ), $result );
+	$expressions = yoimg_get_all_translations( YOIMG_SITE_NAME_EXPRESSION_EN_US );
+	foreach ( $expressions as $expression ) {
+		if ( strpos( $result, $expression ) !== FALSE ) {
+			$result = str_replace( $expression, get_bloginfo( 'name' ), $result );
+		}
 	}
 	return $result;
 }
 add_filter('yoimg_seo_expressions', 'yoimg_seo_expression_site_name', 10, 3);
 
 function yoimg_seo_expression_tags( $result, $attachment, $parent ) {
-	if ( strpos( $result, YOIMG_TAGS_EXPRESSION ) !== FALSE ) {
-		$tags_str = '';
-		$posttags = get_the_tags( $parent->ID );
-		if ( $posttags ) {
-			foreach( $posttags as $tag ) {
-				$tags_str = $tags_str . $tag->name . ' ';
+	$expressions = yoimg_get_all_translations( YOIMG_TAGS_EXPRESSION_EN_US );
+	foreach ( $expressions as $expression ) {
+		if ( strpos( $result, $expression ) !== FALSE ) {
+			$tags_str = '';
+			$posttags = get_the_tags( $parent->ID );
+			if ( $posttags ) {
+				foreach( $posttags as $tag ) {
+					$tags_str = $tags_str . $tag->name . ' ';
+				}
+				$tags_str = trim( $tags_str );
 			}
-			$tags_str = trim( $tags_str );
+			$result = str_replace( $expression, $tags_str, $result );
 		}
-		$result = str_replace( YOIMG_TAGS_EXPRESSION, $tags_str, $result );
 	}
 	return $result;
 }
 add_filter('yoimg_seo_expressions', 'yoimg_seo_expression_tags', 10, 3);
 
 function yoimg_seo_expression_categories( $result, $attachment, $parent ) {
-	if ( strpos( $result, YOIMG_CATEGORIES_EXPRESSION ) !== FALSE ) {
-		$cats_str = '';
-		$cats = get_the_category( $parent->ID );
-		if ( $cats ) {
-			foreach( $cats as $cat ) {
-				$cats_str = $cats_str . $cat->cat_name . ' ';
+	$expressions = yoimg_get_all_translations( YOIMG_CATEGORIES_EXPRESSION_EN_US );
+	foreach ( $expressions as $expression ) {
+		if ( strpos( $result, $expression ) !== FALSE ) {
+			$cats_str = '';
+			$cats = get_the_category( $parent->ID );
+			if ( $cats ) {
+				foreach( $cats as $cat ) {
+					$cats_str = $cats_str . $cat->cat_name . ' ';
+				}
+				$cats_str = trim( $cats_str );
 			}
-			$cats_str = trim( $cats_str );
+			$result = str_replace( $expression, $cats_str, $result );
 		}
-		$result = str_replace( YOIMG_CATEGORIES_EXPRESSION, $cats_str, $result );
 	}
 	return $result;
 }
