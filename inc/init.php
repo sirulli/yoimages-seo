@@ -12,7 +12,7 @@ if (is_admin ()) {
 	define ( 'YOIMG_DEFAULT_IMGSEO_CHANGE_IMAGE_FILENAME', TRUE );
 	
 	define ( 'YOIMG_TITLE_EXPRESSION_EN_US', '[title]' );
-	define ( 'YOIMG_POST_TYPE_EXPRESSION_EN_US', '[type]' );
+	define ( 'YOIMG_POST_TYPE_EXPRESSION_EN_US', '[post_type]' );
 	define ( 'YOIMG_SITE_NAME_EXPRESSION_EN_US', '[site_name]' );
 	define ( 'YOIMG_TAGS_EXPRESSION_EN_US', '[tags]' );
 	define ( 'YOIMG_CATEGORIES_EXPRESSION_EN_US', '[categories]' );
