@@ -40,6 +40,39 @@ function yoimg_get_all_translations( $input ) {
 	return $result;
 }
 
+function yoimg_seo_expressions_author( $result, $attachment, $parent ) {
+	$post_author_id = $parent->post_author;
+	$post_author_username = get_the_author_meta( 'nickname', $post_author_id );
+	$expressions = yoimg_get_all_translations( YOIMG_AUTHOR_USERNAME_EXPRESSION_EN_US );
+	foreach ( $expressions as $expression ) {
+		if ( strpos( $result, $expression ) !== FALSE ) {
+			$result = str_replace( $expression, $post_author_username, $result );
+		}
+	}
+	$post_author_firstname = get_the_author_meta( 'first_name', $post_author_id );
+	if ( empty( $post_author_firstname ) ) {
+		$post_author_firstname = '';
+	}
+	$expressions = yoimg_get_all_translations( YOIMG_AUTHOR_FIRSTNAME_EXPRESSION_EN_US );
+	foreach ( $expressions as $expression ) {
+		if ( strpos( $result, $expression ) !== FALSE ) {
+			$result = str_replace( $expression, $post_author_firstname, $result );
+		}
+	}
+	$post_author_lastname = get_the_author_meta( 'last_name', $post_author_id );
+	if ( empty( $post_author_lastname ) ) {
+		$post_author_lastname = '';
+	}
+	$expressions = yoimg_get_all_translations( YOIMG_AUTHOR_LASTNAME_EXPRESSION_EN_US );
+	foreach ( $expressions as $expression ) {
+		if ( strpos( $result, $expression ) !== FALSE ) {
+			$result = str_replace( $expression, $post_author_lastname, $result );
+		}
+	}
+	return $result;
+}
+add_filter('yoimg_seo_expressions', 'yoimg_seo_expressions_author', 10, 3);
+
 function yoimg_seo_expression_title( $result, $attachment, $parent ) {
 	$expressions = yoimg_get_all_translations( YOIMG_TITLE_EXPRESSION_EN_US );
 	foreach ( $expressions as $expression ) {
