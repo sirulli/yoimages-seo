@@ -3,7 +3,7 @@ if (! defined ( 'ABSPATH' )) {
 	die ( 'No script kiddies please!' );
 }
 
-if (is_admin ()) {
+if (is_admin () || php_sapi_name () == 'cli') {
 	
 	define ( 'YOIMG_SEO_PATH', dirname ( __FILE__ ) );
 	
@@ -19,7 +19,7 @@ if (is_admin ()) {
 	define ( 'YOIMG_AUTHOR_USERNAME_EXPRESSION_EN_US', '[author_username]' );
 	define ( 'YOIMG_AUTHOR_FIRSTNAME_EXPRESSION_EN_US', '[author_firstname]' );
 	define ( 'YOIMG_AUTHOR_LASTNAME_EXPRESSION_EN_US', '[author_lastname]' );
-
+	
 	define ( 'YOIMG_TITLE_EXPRESSION', __ ( YOIMG_TITLE_EXPRESSION_EN_US, YOIMG_DOMAIN ) );
 	define ( 'YOIMG_POST_TYPE_EXPRESSION', __ ( YOIMG_POST_TYPE_EXPRESSION_EN_US, YOIMG_DOMAIN ) );
 	define ( 'YOIMG_SITE_NAME_EXPRESSION', __ ( YOIMG_SITE_NAME_EXPRESSION_EN_US, YOIMG_DOMAIN ) );
@@ -53,16 +53,7 @@ function yoimg_default_supported_expressions($supported_expressions) {
 	if (! $supported_expressions) {
 		$supported_expressions = array ();
 	}
-	array_push ( $supported_expressions,
-		YOIMG_TITLE_EXPRESSION,
-		YOIMG_POST_TYPE_EXPRESSION,
-		YOIMG_SITE_NAME_EXPRESSION,
-		YOIMG_TAGS_EXPRESSION,
-		YOIMG_CATEGORIES_EXPRESSION,
-		YOIMG_AUTHOR_USERNAME_EXPRESSION,
-		YOIMG_AUTHOR_FIRSTNAME_EXPRESSION,
-		YOIMG_AUTHOR_LASTNAME_EXPRESSION
-	);
+	array_push ( $supported_expressions, YOIMG_TITLE_EXPRESSION, YOIMG_POST_TYPE_EXPRESSION, YOIMG_SITE_NAME_EXPRESSION, YOIMG_TAGS_EXPRESSION, YOIMG_CATEGORIES_EXPRESSION, YOIMG_AUTHOR_USERNAME_EXPRESSION, YOIMG_AUTHOR_FIRSTNAME_EXPRESSION, YOIMG_AUTHOR_LASTNAME_EXPRESSION );
 	return $supported_expressions;
 }
 add_filter ( 'yoimg_supported_expressions', 'yoimg_default_supported_expressions', 10, 1 );
