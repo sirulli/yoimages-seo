@@ -47,8 +47,8 @@ if (is_admin () || php_sapi_name () == 'cli') {
 		require_once (YOIMG_SEO_PATH . '/commons.php');
 		require_once (YOIMG_SEO_PATH . '/extend-attachment-uploading.php');
 		require_once (YOIMG_SEO_PATH . '/extend-post-saving.php');
-		require_once (YOIMG_SEO_PATH . '/extend-yoimg-settings.php');
 	}
+	require_once (YOIMG_SEO_PATH . '/extend-yoimg-settings.php');
 }
 function yoimg_default_supported_expressions($supported_expressions) {
 	if (! $supported_expressions) {
