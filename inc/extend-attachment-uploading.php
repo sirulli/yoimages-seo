@@ -28,7 +28,11 @@ function yoimg_attachment_added_to_post_or_page( $attachment_id ) {
 					}
 					
 					if ( YOIMG_IMGSEO_CHANGE_IMAGE_FILENAME ) {
-						$post_parent_slug = sanitize_title( yoimg_imgseo_get_image_filename( $attachment, $post_parent ) );
+						$post_parent_slug = sanitize_file_name(
+							sanitize_title(
+								yoimg_imgseo_get_image_filename( $attachment, $post_parent )
+							)
+						);
 						$attachment->post_name = wp_unique_post_slug( $post_parent_slug, $attachment_id, $attachment->post_status, $attachment->post_type, $post_parent_id );
 						$attachment_new_path = $attachment_path_info['dirname'] . '/' . $attachment->post_name . '.' . $attachment_path_info['extension'];
 						$count = 0;
